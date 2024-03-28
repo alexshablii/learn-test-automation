@@ -20,8 +20,8 @@ public class AccountPage extends BasePageObject {
     private By yearField = By.id("form_year");
     private By monthFormSelect = By.id("form_month");
     private By goCTA = By.xpath("//form[@class='add_income_form']//b");
-    private By addedTransactionDescription = By.xpath("//table//tr[2]//td[2]");
-    private By addedTransactionAmount = By.xpath("//table//tr[2]//td[4]");
+    private By recentTransactionDescription = By.xpath("//table//tr[2]//td[2]");
+    private By recentIncomeTransactionAmount = By.xpath("//table//tr[2]//td[4]");
 
     //Methods
     public String getAccName() {
@@ -51,11 +51,54 @@ public class AccountPage extends BasePageObject {
     }
 
     public String getRecentTransactionDescription() {
-        return driver.findElement(addedTransactionDescription).getText();
+        return driver.findElement(recentTransactionDescription).getText();
     }
 
     public String getRecentTransactionAmount() {
-        return driver.findElement(addedTransactionAmount).getText();
+        return driver.findElement(recentIncomeTransactionAmount).getText();
 
     }
-}
+
+    // Create locators for Add Spending Transaction form
+    private By spendingTypeSelect = By.id("form_spend_categories");
+    private By descrpField = By.xpath("//form[@class='spending_transaction_form']//input[@id='form_description']");
+    private By amntField = By.xpath("//form[@class='spending_transaction_form']//input[@id='form_amount']");
+    private By yearSpent = By.xpath("//form[@class='spending_transaction_form']//input[@id='form_year']");
+    private By monthSpentForm = By.xpath("//form[@class='spending_transaction_form']//select[@id='form_month']");
+    private By goButton = By.xpath("//form[@class='spending_transaction_form']//b");
+    private By recentSpendingDescription = By.xpath("//table//tr[2]//td[2]");
+    private By recentSpendingTransactionAmount = By.xpath("//table//tr[2]//td[3]");
+
+    //Methods
+    public void addSpendings(String spendingType, String descrp, String amountF, String year, String month) {
+        Select selectSalary = new Select(driver.findElement(spendingTypeSelect));
+        selectSalary.selectByVisibleText(spendingType);
+
+        WebElement desc = driver.findElement(descrpField);
+        desc.sendKeys(descrp);
+
+        WebElement amnt = driver.findElement(amntField);
+        amnt.sendKeys(amountF);
+
+        WebElement y = driver.findElement(yearSpent);
+        y.clear(); //clear form
+        y.sendKeys(year);
+
+        Select selectMonth = new Select(driver.findElement(monthSpentForm));
+        selectMonth.selectByVisibleText(month);
+
+        WebElement proceed = driver.findElement(goButton);
+        proceed.click();
+    }
+
+    public String getRecentSpendingDescription() {
+        return driver.findElement(recentSpendingDescription).getText();
+    }
+
+    public String getRecentSpendingAmount() {
+        return driver.findElement(recentSpendingTransactionAmount).getText();
+
+    }
+
+    }
+
