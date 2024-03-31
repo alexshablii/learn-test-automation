@@ -100,5 +100,42 @@ public class AccountPage extends BasePageObject {
 
     }
 
+
+    private By amountToTransfer = By.xpath("//form[@class='to_savings_not_affect_form']//input[@id='form_amount']");
+    private By accType  = By.xpath("//form[@class='to_savings_not_affect_form']//select[@id='form_account']");
+    private By transferYear = By.xpath("//form[@class='to_savings_not_affect_form']//input[@id='form_year']");
+    private By transferMonth = By.xpath("//form[@class='to_savings_not_affect_form']//select[@id='form_month']");
+    private By proceedCTA = By.xpath("//form[@class='to_savings_not_affect_form']//b");
+    private By recentTransferDescription = By.xpath("//table//tr[2]//td[2]");
+    private By recentTransferAmount = By.xpath("//table//tr[2]//td[3]");
+
+    //Methods
+    public void addTransfer(String transferAmount, String accountTp, String transferY, String transferM) {
+
+        WebElement desc = driver.findElement(amountToTransfer);
+        desc.sendKeys(transferAmount);
+
+        Select selectAccount = new Select(driver.findElement(accType));
+        selectAccount.selectByVisibleText(accountTp);
+
+        WebElement y = driver.findElement(transferYear);
+        y.clear(); //clear form
+        y.sendKeys(transferY);
+
+        Select selectMonth = new Select(driver.findElement(transferMonth));
+        selectMonth.selectByVisibleText(transferM);
+
+        WebElement proceed = driver.findElement(proceedCTA);
+        proceed.click();
     }
+
+    public String getRecentTransferDescription() {
+    return driver.findElement(recentTransferDescription).getText();
+}
+
+    public String getRecentTransferAmount() {
+        return driver.findElement(recentTransferAmount).getText();
+
+}
+}
 
